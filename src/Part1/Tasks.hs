@@ -47,7 +47,20 @@ myGCD a b = gcd (abs a) (abs b)
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
-isDateCorrect = notImplementedYet
+isDateCorrect day month year =
+    if month `elem` [1, 3, 5, 7, 8, 10, 12] then
+        day <= 31
+    else if month `elem` [4, 6, 9, 11] then
+        day <= 30
+    else if month == 2 then
+        day <= febDays
+    else
+        False
+        where
+            divisible x = rem year x == 0
+            isLeap = (divisible 4 && not (divisible 100)) || divisible 400
+            febDays = if isLeap then 29 else 28
+
 
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
