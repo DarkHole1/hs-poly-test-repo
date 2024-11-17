@@ -38,7 +38,10 @@ myCos = approx 15 . cycle'
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer
-myGCD = notImplementedYet
+myGCD a b = gcd (abs a) (abs b)
+    where
+        gcd a 0 = a
+        gcd a b = gcd b (a `mod` b)
 
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
