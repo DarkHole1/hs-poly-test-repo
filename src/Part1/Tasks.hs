@@ -67,7 +67,13 @@ type Point2D = (Double, Double)
 -- многоугольник задан списком координат
 shapeArea :: [Point2D] -> Double
 --shapeArea points = notImplementedYet
-shapeArea = notImplementedYet
+shapeArea pts = abs (positive - negative) / 2
+    where
+        (x1, y1) = head pts
+        (xn, yn) = last pts
+        pairs = zip pts (tail pts)
+        positive = foldl (\acc -> \((x, _), (_, y)) -> acc + x * y) (xn * y1) pairs
+        negative = foldl (\acc -> \((_, y), (x, _)) -> acc + x * y) (x1 * yn) pairs
 
 -- треугольник задан длиной трёх своих сторон.
 -- функция должна вернуть
