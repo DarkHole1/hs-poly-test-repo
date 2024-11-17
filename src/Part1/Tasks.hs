@@ -2,9 +2,24 @@ module Part1.Tasks where
 
 import Util(notImplementedYet)
 
+cycle' :: Double -> Double
+cycle' x = 
+    -- if res >= 0 then res else res + 2 * pi
+    res
+    where
+        res = x - (fromIntegral . floor) (x / (2 * pi)) * 2 * pi
+
 -- синус числа (формула Тейлора)
 mySin :: Double -> Double
-mySin = notImplementedYet
+mySin = approx 10 . cycle'
+    where
+        approx :: Integer -> Double -> Double
+        approx n x =
+            if n >= 0 then
+                (-1) ^^ n / fromIntegral (fact (2 * n + 1)) * x ^^ (2 * n + 1) + approx (n - 1) x
+            else
+                0.0
+        fact n = if n > 0 then n * fact (n - 1) else 1
 
 -- косинус числа (формула Тейлора)
 myCos :: Double -> Double
