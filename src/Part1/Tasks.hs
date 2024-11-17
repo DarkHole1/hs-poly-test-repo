@@ -2,6 +2,9 @@ module Part1.Tasks where
 
 import Util(notImplementedYet)
 
+-- Небольшой трюк для того чтобы обеспечить стопроцентное покрытие.
+-- Формально его можно представить как выбор удачного a для ряда
+-- Тейлора.
 cycle' :: Double -> Double
 cycle' x = 
     -- if res >= 0 then res else res + 2 * pi
@@ -23,7 +26,15 @@ mySin = approx 10 . cycle'
 
 -- косинус числа (формула Тейлора)
 myCos :: Double -> Double
-myCos = notImplementedYet
+myCos = approx 15 . cycle'
+    where
+        approx :: Integer -> Double -> Double
+        approx n x =
+            if n >= 0 then
+                (-1) ^^ n / fromIntegral (fact (2 * n)) * x ^^ (2 * n) + approx (n - 1) x
+            else
+                0.0
+        fact n = if n > 0 then n * fact (n - 1) else 1
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer
