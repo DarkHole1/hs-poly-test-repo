@@ -51,7 +51,8 @@ isDateCorrect = notImplementedYet
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
 myPow :: Integer -> Integer -> Integer
-myPow = notImplementedYet
+myPow _ 0 = 1
+myPow x y = x * myPow x (y - 1)
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
