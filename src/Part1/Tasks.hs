@@ -1,6 +1,7 @@
 module Part1.Tasks where
 
 import Util(notImplementedYet)
+import Data.List(sort)
 
 -- Небольшой трюк для того чтобы обеспечить стопроцентное покрытие.
 -- Формально его можно представить как выбор удачного a для ряда
@@ -82,4 +83,17 @@ shapeArea pts = abs (positive - negative) / 2
 --  2, если он прямоугольный
 --  -1, если это не треугольник
 triangleKind :: Double -> Double -> Double -> Integer
-triangleKind a b c = notImplementedYet
+triangleKind a b c =
+    if a <= 0 || b <= 0 || c <= 0 then
+        -1
+    else if a' + b' <= c' then
+        -1
+    else if diff == 0 then
+        2
+    else if diff < 0 then
+        0
+    else
+        1
+        where
+            a' : b' : c' : _ = sort [a, b, c]
+            diff = a'^2 + b'^2 - c'^2
