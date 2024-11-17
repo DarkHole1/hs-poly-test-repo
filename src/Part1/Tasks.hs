@@ -56,7 +56,10 @@ myPow x y = x * myPow x (y - 1)
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
-isPrime = notImplementedYet
+isPrime x = primeCheck (x - 1)
+    where
+        primeCheck 1 = True
+        primeCheck y = if rem x y == 0 then False else primeCheck (y - 1)
 
 type Point2D = (Double, Double)
 
