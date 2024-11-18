@@ -45,5 +45,7 @@ instance Semigroup (ReverseList a) where
 instance Monoid (ReverseList a) where
     mempty = REmpty
 instance Functor ReverseList where
+    fmap _ REmpty = REmpty
+    fmap f (rest :< last) = fmap f rest :< f last
 instance Applicative ReverseList where
 instance Monad ReverseList where
