@@ -39,3 +39,9 @@ unit_multiplyMatrix = do
             [8, 9, 5],
             [6, 5, 3],
             [11, 9, 6]]
+
+unit_determinant = do
+    determinant (10 :: Int) @?= (10 :: Int)
+    determinant ([[1, 2], [3, 4]] :: [[Int]]) @?= (-2 :: Int)
+    determinant ([[1, 2, 3], [4, 5, 6], [7, 8, 9]] :: [[Int]]) @?= (0 :: Int)
+    determinant (eye 10 :: [[Int]]) @?= 1
