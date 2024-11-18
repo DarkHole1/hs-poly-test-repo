@@ -24,10 +24,10 @@ myConcat :: [[a]] -> [a]
 myConcat = myFoldr (<>) []
 
 myReverse :: [a] -> [a]
-myReverse = notImplementedYet
+myReverse = myFoldl (\b -> \a -> a : b) []
 
 myFilter :: (a -> Bool) -> [a] -> [a]
-myFilter p = notImplementedYet
+myFilter p = myConcatMap (\x -> if p x then [x] else [])
 
 myPartition :: (a -> Bool) -> [a] -> ([a], [a])
 myPartition p = notImplementedYet
