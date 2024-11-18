@@ -30,10 +30,10 @@ instance Matrix Int where
     get (0, 0) = id
     set (0, 0) n = const n
 instance Matrix [[Int]] where
-    create (w, h) = replicate w (replicate h 0)
-    size x = (length x, length (x !! 0))
-    get (x, y) m = m !! x !! y
-    set (x, y) n = at2 x y (const n)
+    create (w, h) = replicate h (replicate w 0)
+    size x = (length (x !! 0), length x)
+    get (x, y) m = m !! y !! x
+    set (x, y) n = at2 y x (const n)
         where
             indexed = zip [0..]
             at x f = fmap (\(x', y) -> if x == x' then f y else y) . indexed
@@ -61,14 +61,14 @@ zero :: Matrix m => Int -> Int -> m
 zero w h = create (w, h)
 -- Перемножение матриц
 multiplyMatrix :: Matrix m => m -> m -> m
-multiplyMatrix a b | ah == bw = c'
+multiplyMatrix a b | aw == bh = c'
     where
         (aw, ah) = size a
         (bw, bh) = size b
-        c = create (aw, bh)
+        c = create (bw, ah)
         c' = foldr (\p -> set p (cij p)) c pts
-        pts = [(x, y) | x <- [0..aw - 1], y <- [0..bh - 1]]
-        cij (i, j) = sum $ fmap (\r -> get (i, r) a * get (r, j) b) [0..ah - 1]
+        pts = [(x, y) | x <- [0..bw - 1], y <- [0..ah - 1]]
+        cij (i, j) = sum $ fmap (\r -> get (i, r) b * get (r, j) a) [0..aw - 1]
 -- Определитель матрицы
 determinant :: Matrix m => m -> Int
 determinant = notImplementedYet
