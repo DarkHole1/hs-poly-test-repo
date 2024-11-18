@@ -12,11 +12,15 @@ data Term = IntConstant { intValue :: Int }          -- числовая кон�
 -- Для бинарных операций необходима не только реализация, но и адекватные
 -- ассоциативность и приоритет
 (|+|) :: Term -> Term -> Term
-(|+|) = notImplementedYet
+(|+|) = BinaryTerm Plus
 (|-|) :: Term -> Term -> Term
-(|-|) = notImplementedYet
+(|-|) = BinaryTerm Minus
 (|*|) :: Term -> Term -> Term
-(|*|) = notImplementedYet
+(|*|) = BinaryTerm Times
+
+infixl 6 |+|
+infixl 6 |-|
+infixl 7 |*|
 
 -- Заменить переменную `varName` на `replacement`
 -- во всём выражении `expression`
@@ -27,8 +31,8 @@ replaceVar varName replacement expression =
       BinaryTerm { op = op, lhv = lhv, rhv = rhv } ->
          BinaryTerm {
             op = op, 
-            lhv = replaceVar varName expression lhv, 
-            rhv = replaceVar varName expression rhv
+            lhv = replaceVar varName replacement lhv, 
+            rhv = replaceVar varName replacement rhv
          }
       _ -> expression
 
