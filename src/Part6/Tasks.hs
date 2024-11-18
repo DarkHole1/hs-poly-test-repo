@@ -24,6 +24,10 @@ class Matrix mx where
 --  * списка списков чисел
 --  * типа SparseMatrix, представленного выше
 instance Matrix Int where
+    create (1, 1) = 0
+    size _ = (1, 1)
+    get (0, 0) = id
+    set (0, 0) n = const n
 instance Matrix [[Int]] where
 instance Matrix (SparseMatrix Int) where
 
