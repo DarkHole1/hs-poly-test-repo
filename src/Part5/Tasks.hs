@@ -15,13 +15,13 @@ myFoldr f c (x:xs) = f x (myFoldr f c xs)
 -- Используя реализации свёрток выше, реализуйте все остальные функции в данном файле
 
 myMap :: (a -> b) -> [a] -> [b]
-myMap f = notImplementedYet
+myMap f = myFoldr (\a -> \b -> f a : b) []
 
 myConcatMap :: (a -> [b]) -> [a] -> [b]
-myConcatMap f = notImplementedYet
+myConcatMap f = myFoldr (\a -> \b -> f a <> b) []
 
 myConcat :: [[a]] -> [a]
-myConcat = notImplementedYet
+myConcat = myFoldr (<>) []
 
 myReverse :: [a] -> [a]
 myReverse = notImplementedYet
