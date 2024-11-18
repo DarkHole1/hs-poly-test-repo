@@ -30,5 +30,5 @@ myFilter :: (a -> Bool) -> [a] -> [a]
 myFilter p = myConcatMap (\x -> if p x then [x] else [])
 
 myPartition :: (a -> Bool) -> [a] -> ([a], [a])
-myPartition p = notImplementedYet
+myPartition p l = (myFilter p l, myFilter (not.p) l)
 
