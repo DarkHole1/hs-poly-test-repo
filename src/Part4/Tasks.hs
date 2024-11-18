@@ -48,4 +48,10 @@ instance Functor ReverseList where
     fmap _ REmpty = REmpty
     fmap f (rest :< last) = fmap f rest :< f last
 instance Applicative ReverseList where
+    pure = (:<) REmpty
+    (<*>) a b = concatMap (\f -> fmap f b) a
+        where
+            concatMap _ REmpty = REmpty
+            concatMap f (rest :< last) = concatMap f rest <> f last
+
 instance Monad ReverseList where
