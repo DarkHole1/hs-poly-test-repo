@@ -38,7 +38,12 @@ instance Eq a => Eq (ReverseList a) where
             eq _ _ = False
     (/=) a b = not (a == b)
 instance Semigroup (ReverseList a) where
+    (<>) = rconcat
+        where
+            rconcat rl REmpty = rl
+            rconcat rl (rest :< last) = rconcat rl rest :< last
 instance Monoid (ReverseList a) where
+    mempty = REmpty
 instance Functor ReverseList where
 instance Applicative ReverseList where
 instance Monad ReverseList where
