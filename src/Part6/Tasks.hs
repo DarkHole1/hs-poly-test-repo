@@ -2,7 +2,7 @@
 module Part6.Tasks where
 
 import Util (notImplementedYet)
-import Data.Map
+import Data.Map(Map, (!?), insert)
 import Data.Maybe(fromMaybe)
 
 -- Разреженное представление матрицы. Все элементы, которых нет в sparseMatrixElements, считаются нулями
@@ -40,7 +40,7 @@ instance Matrix [[Int]] where
             at2 x y f = at x (at y f)
 instance Matrix (SparseMatrix Int) where
     create (w, h) = SparseMatrix {
-        sparseMatrixWidth = w, sparseMatrixHeight = h, sparseMatrixElements = fromList []
+        sparseMatrixWidth = w, sparseMatrixHeight = h, sparseMatrixElements = mempty
     }
     size SparseMatrix { sparseMatrixWidth = w, sparseMatrixHeight = h } = (w, h)
     get p m = fromMaybe 0 $ sparseMatrixElements m !? p
@@ -55,13 +55,20 @@ instance Matrix (SparseMatrix Int) where
 -- Реализуйте следующие функции
 -- Единичная матрица
 eye :: Matrix m => Int -> m
-eye w = Prelude.foldr (\x -> set (x, x) 1) (create (w, w)) [0..w - 1]
+eye w = foldr (\x -> set (x, x) 1) (create (w, w)) [0..w - 1]
 -- Матрица, заполненная нулями
 zero :: Matrix m => Int -> Int -> m
 zero w h = create (w, h)
 -- Перемножение матриц
 multiplyMatrix :: Matrix m => m -> m -> m
-multiplyMatrix = notImplementedYet
+multiplyMatrix a b | ah == bw = c'
+    where
+        (aw, ah) = size a
+        (bw, bh) = size b
+        c = create (aw, bh)
+        c' = foldr (\p -> set p (cij p)) c pts
+        pts = [(x, y) | x <- [0..aw - 1], y <- [0..bh - 1]]
+        cij (i, j) = sum $ fmap (\r -> get (i, r) a * get (r, j) b) [0..ah - 1]
 -- Определитель матрицы
 determinant :: Matrix m => m -> Int
 determinant = notImplementedYet
