@@ -33,4 +33,10 @@ uniq = uniq' []
 -- значению результата применения F к элементам Lst ставит в соответствие список элементов Lst,
 -- приводящих к этому результату. Результат следует представить в виде списка пар.
 grokBy :: (Eq k) => (a -> k) -> [a] -> [(k, [a])]
-grokBy f l = notImplementedYet
+grokBy f l = foldl (\a -> \b -> appendRes (f b) b a) [] l
+    where
+        appendRes :: (Eq k) => k -> a -> [(k, [a])] -> [(k, [a])]
+        appendRes k a [] = [(k, [a])]
+        appendRes k a ((k', as):ks)
+            | k == k' = (k, a:as):ks
+            | otherwise = (k', as) : appendRes k a ks
