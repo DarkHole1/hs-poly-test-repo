@@ -22,7 +22,12 @@ mostFreq xs = maxIndex $ map (flip count digits) ['0'..'9']
 
 -- Дан список lst. Вернуть список элементов из lst без повторений, порядок может быть произвольным.
 uniq :: (Eq a) => [a] -> [a]
-uniq = notImplementedYet
+uniq = uniq' []
+    where
+        uniq' xs (y:ys)
+            | y `elem` xs = uniq' xs ys
+            | otherwise = uniq' (y:xs) ys
+        uniq' xs _ = xs
 
 -- Функция grokBy принимает на вход список Lst и функцию F и каждому возможному
 -- значению результата применения F к элементам Lst ставит в соответствие список элементов Lst,
