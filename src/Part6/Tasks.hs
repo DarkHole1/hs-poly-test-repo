@@ -69,6 +69,25 @@ multiplyMatrix a b | aw == bh = c'
         c' = foldr (\p -> set p (cij p)) c pts
         pts = [(x, y) | x <- [0..bw - 1], y <- [0..ah - 1]]
         cij (i, j) = sum $ fmap (\r -> get (i, r) b * get (r, j) a) [0..aw - 1]
+
+complimentMinor :: Matrix m => Int -> Int -> m -> m
+complimentMinor i j m = foldr (helper i j) (create (w - 1, w - 1)) pts
+    where
+        (w, h) = size m
+        helper :: Matrix m => Int -> Int -> (Int, Int) -> m -> m
+        helper i j (x, y) c =
+            if i == x || j == y then c
+            else set (x', y') (get (x, y) m) c
+            where
+                x' = if x > i then x - 1 else x
+                y' = if y > j then y - 1 else y
+        pts = [(x, y) | x <- [0..w-1], y <- [0..h-1]]
+
 -- Определитель матрицы
 determinant :: Matrix m => m -> Int
-determinant = notImplementedYet
+determinant m | w == h = 
+    if w == 1 then get (0, 0) m
+    else sum $ fmap (\j -> (-1) ^ j * get (0, j) m * determinant (complimentMinor 0 j m)) [0..w - 1]
+    where
+        (w, h) = size m
+        
