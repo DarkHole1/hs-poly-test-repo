@@ -29,6 +29,14 @@ instance Matrix Int where
     get (0, 0) = id
     set (0, 0) n = const n
 instance Matrix [[Int]] where
+    create (w, h) = replicate w (replicate h 0)
+    size x = (length x, length (x !! 0))
+    get (x, y) m = m !! x !! y
+    set (x, y) n = at2 x y (const n)
+        where
+            indexed = zip [0..]
+            at x f = fmap (\(x', y) -> if x == x' then f y else y) . indexed
+            at2 x y f = at x (at y f)
 instance Matrix (SparseMatrix Int) where
 
 -- Реализуйте следующие функции
