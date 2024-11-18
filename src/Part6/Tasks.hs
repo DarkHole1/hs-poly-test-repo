@@ -3,6 +3,7 @@ module Part6.Tasks where
 
 import Util (notImplementedYet)
 import Data.Map
+import Data.Maybe(fromMaybe)
 
 -- Разреженное представление матрицы. Все элементы, которых нет в sparseMatrixElements, считаются нулями
 data SparseMatrix a = SparseMatrix {
@@ -38,6 +39,18 @@ instance Matrix [[Int]] where
             at x f = fmap (\(x', y) -> if x == x' then f y else y) . indexed
             at2 x y f = at x (at y f)
 instance Matrix (SparseMatrix Int) where
+    create (w, h) = SparseMatrix {
+        sparseMatrixWidth = w, sparseMatrixHeight = h, sparseMatrixElements = fromList []
+    }
+    size SparseMatrix { sparseMatrixWidth = w, sparseMatrixHeight = h } = (w, h)
+    get p m = fromMaybe 0 $ sparseMatrixElements m !? p
+    set p n m = SparseMatrix {
+        sparseMatrixWidth = sparseMatrixWidth m,
+        sparseMatrixHeight = sparseMatrixHeight m,
+        sparseMatrixElements = e'
+    }
+        where
+            e' = insert p n $ sparseMatrixElements m
 
 -- Реализуйте следующие функции
 -- Единичная матрица
