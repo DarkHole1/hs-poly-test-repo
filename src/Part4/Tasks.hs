@@ -55,3 +55,7 @@ instance Applicative ReverseList where
             concatMap f (rest :< last) = concatMap f rest <> f last
 
 instance Monad ReverseList where
+    (>>=) = bind
+        where
+            bind REmpty _ = REmpty
+            bind (rest :< last) f = bind rest f <> f last
