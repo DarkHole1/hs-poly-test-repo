@@ -55,10 +55,10 @@ instance Matrix (SparseMatrix Int) where
 -- Реализуйте следующие функции
 -- Единичная матрица
 eye :: Matrix m => Int -> m
-eye w = notImplementedYet
+eye w = Prelude.foldr (\x -> set (x, x) 1) (create (w, w)) [0..w - 1]
 -- Матрица, заполненная нулями
 zero :: Matrix m => Int -> Int -> m
-zero w h = notImplementedYet
+zero w h = create (w, h)
 -- Перемножение матриц
 multiplyMatrix :: Matrix m => m -> m -> m
 multiplyMatrix = notImplementedYet
