@@ -16,12 +16,18 @@ rlistToList lst =
 
 -- Реализуйте обратное преобразование
 listToRlist :: [a] -> ReverseList a
-listToRlist = notImplementedYet
+listToRlist = listToRlist' . reverse
+    where
+        listToRlist' [] = REmpty
+        listToRlist' (x:xs) = listToRlist' xs :< x 
 
 -- Реализуйте все представленные ниже классы (см. тесты)
-instance Show (ReverseList a) where
-    showsPrec = notImplementedYet
-    show = notImplementedYet
+instance Show a => Show (ReverseList a) where
+    show x = "[" ++ show' x ++ "]"
+        where
+            show' REmpty = ""
+            show' (REmpty :< last) = show last
+            show' (rest :< last) = show' rest ++ "," ++ show last
 instance Eq (ReverseList a) where
     (==) = notImplementedYet
     (/=) = notImplementedYet
