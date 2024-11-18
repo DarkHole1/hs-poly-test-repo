@@ -21,7 +21,16 @@ data Term = IntConstant { intValue :: Int }          -- числовая кон�
 -- Заменить переменную `varName` на `replacement`
 -- во всём выражении `expression`
 replaceVar :: String -> Term -> Term -> Term
-replaceVar varName replacement expression = notImplementedYet
+replaceVar varName replacement expression =
+   case expression of
+      Variable { varName = varName' } | varName == varName' -> replacement
+      BinaryTerm { op = op, lhv = lhv, rhv = rhv } ->
+         BinaryTerm {
+            op = op, 
+            lhv = replaceVar varName expression lhv, 
+            rhv = replaceVar varName expression rhv
+         }
+      _ -> expression
 
 -- Посчитать значение выражения `Term`
 -- если оно состоит только из констант
